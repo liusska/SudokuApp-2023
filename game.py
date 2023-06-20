@@ -1,7 +1,7 @@
 import sys
 from grid import Grid
 from button import Button
-from message import Message
+# from message import Message
 from game_utils import (
     convert_all_cells_values_in_int,
     is_any_empty_cell_in_grid,

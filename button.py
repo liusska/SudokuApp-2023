@@ -1,9 +1,9 @@
 class Button:
     def __init__(self, pg, x, text, action):
         self.pg = pg
-        self.rect = pg.Rect(x, 750, 100, 40)
-        self.color = pg.Color("gray")
-        self.hover_color = pg.Color("lightgray")
+        self.rect = pg.Rect(x, 762, 100, 30)
+        self.color = pg.Color(224, 224, 224)
+        self.hover_color = pg.Color(255, 255, 255)
         self.text = text
         self.text_color = pg.Color("black")
         self.action = action

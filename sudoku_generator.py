@@ -23,25 +23,6 @@ def view_sudoku_state(grid):
     print('\n')
 
 
-# def solve_sudoku(numbers, index):
-#     if index == 81:
-#         return True
-#
-#     row = index // 9
-#     col = index % 9
-#
-#     if sudoku_grid[row][col] != '':
-#         return solve_sudoku(numbers, index + 1)
-#
-#     random.shuffle(numbers)
-#     for num in numbers:
-#         if is_valid_number(row, col, num):
-#             sudoku_grid[row][col] = num
-#             if solve_sudoku(numbers, index + 1):
-#                 return True
-#             sudoku_grid[row][col] = ''
-#     return False
-
 def solve_sudoku(numbers, index):
     if index == 81:
         return True

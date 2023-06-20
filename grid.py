@@ -40,7 +40,7 @@ class Grid:
         for row in range(self.length):
             for col in range(self.length):
                 output = self.grid_numbers[row][col]
-                n_text = self.font.render(str(output), True, self.pg.Color("black"))
+                n_text = self.font.render(str(output), True, self.pg.Color(64, 64, 64))
                 self.screen.blit(
                     n_text,
                     self.pg.Vector2(
