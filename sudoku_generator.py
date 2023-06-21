@@ -105,9 +105,3 @@ def generate_start_numbers_for_sudoku():
     puzzle_grid = remove_numbers(difficulty_level)
 
     return puzzle_grid
-    # return {
-    #     'solved_sudoku': solved_sudoku,
-    #     'puzzle_grid': puzzle_grid
-    # }
-
-# generate_start_numbers_for_sudoku()

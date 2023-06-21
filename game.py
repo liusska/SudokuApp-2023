@@ -1,7 +1,6 @@
 import sys
 from grid import Grid
 from button import Button
-# from message import Message
 from game_utils import (
     convert_all_cells_values_in_int,
     is_any_empty_cell_in_grid,
@@ -68,18 +67,18 @@ class Game:
     def finish_game(self):
         if is_any_empty_cell_in_grid(self.numbers_grid):
             text = "There are empty cells."
-            # message = Message(self.pg, self.grid, text)
-            # message.run()
+            self.grid.show_popup(text)
             print(text)
             return
         copy_of_current_grid_state = convert_all_cells_values_in_int(self.numbers_grid)
         if is_sudoku_solved(copy_of_current_grid_state):
-            print("Congratulations! Sudoku is solved properly.")
+            text = "Congratulations! Sudoku is solved properly."
+            self.grid.show_popup(text)
+            print(text)
             print(self.numbers_grid)
         else:
             text = "Please try again!"
-            # message = Message(self.pg, self.grid, text)
-            # message.run()
+            self.grid.show_popup(text)
             print(text)
             print(self.numbers_grid)
             return
@@ -90,13 +89,19 @@ class Game:
         for event in self.pg.event.get():
             if event.type == self.pg.QUIT:
                 sys.exit()
-            if event.type == self.pg.KEYDOWN:
+            if event.type == self.pg.KEYDOWN and not self.grid.popup_active:
                 self.make_move(event, self.grid.grid_numbers)
+            if event.type == self.pg.MOUSEBUTTONDOWN and self.grid.popup_active:
+                self.grid.close_popup()
             self.finish_btn.handle_event(event)
             self.restart_btn.handle_event(event)
             self.new_game_btn.handle_event(event)
+        if self.grid.popup_active:
+            self.grid.draw_popup()
 
         self.finish_btn.draw(self.grid.screen)
         self.restart_btn.draw(self.grid.screen)
         self.new_game_btn.draw(self.grid.screen)
+
+
         self.pg.display.flip()
