@@ -24,4 +24,4 @@ class Button:
             # Left mouse button
             if event.button == 1:
                 if self.rect.collidepoint(event.pos):
-                    self.action()
+                    return self.action()

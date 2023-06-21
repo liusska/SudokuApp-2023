@@ -4,7 +4,8 @@ from button import Button
 from game_utils import (
     convert_all_cells_values_in_int,
     is_any_empty_cell_in_grid,
-    is_sudoku_solved
+    is_sudoku_solved,
+    is_valid_number
 )
 from sudoku_generator import generate_start_numbers_for_sudoku
 
@@ -27,6 +28,9 @@ class Game:
 
     def enter_number(self, event, numbers_grid):
         cell_x, cell_y = self.calculate_cell_coordinates()
+        if not is_valid_number(cell_x) or not is_valid_number(cell_y):
+            print(f"Not valid coordinates {cell_x} {cell_y}" )
+            return
         if type(numbers_grid[cell_x][cell_y]) == str:
             numbers_grid[cell_x][cell_y] = event.unicode
             font = self.pg.font.SysFont(None, 80)
@@ -46,6 +50,11 @@ class Game:
         if event.type == self.pg.KEYDOWN:
             if event.key in range(self.pg.K_1, self.pg.K_9 + 1):
                 self.enter_number(event, numbers_grid)
+            elif event.key in range(self.pg.K_KP1, self.pg.K_KP9 + 1):
+                # Number pad keys (KP1 - KP9)
+                number = int(event.unicode) if event.unicode else None
+                if number is not None:
+                    self.enter_number(event, numbers_grid)
             elif event.key == self.pg.K_BACKSPACE:
                 self.clear_number()
 
@@ -57,9 +66,11 @@ class Game:
         self.play_game()
 
     def new_game(self):
-        self.numbers_grid = generate_start_numbers_for_sudoku()
+        self.grid.show_difficulty_options()
+        print(self.grid.selected_difficulty)
+        self.numbers_grid = generate_start_numbers_for_sudoku(self.grid.selected_difficulty)
         self.grid = Grid(self.pg, self.numbers_grid)
-        print("Sudoku restarted!")
+        print("New game!")
         print(self.numbers_grid)
         self.play_game()
         pass
@@ -72,7 +83,7 @@ class Game:
             return
         copy_of_current_grid_state = convert_all_cells_values_in_int(self.numbers_grid)
         if is_sudoku_solved(copy_of_current_grid_state):
-            text = "Congratulations! Sudoku is solved properly."
+            text = "Congratulations!"
             self.grid.show_popup(text)
             print(text)
             print(self.numbers_grid)
@@ -102,6 +113,5 @@ class Game:
         self.finish_btn.draw(self.grid.screen)
         self.restart_btn.draw(self.grid.screen)
         self.new_game_btn.draw(self.grid.screen)
-
 
         self.pg.display.flip()

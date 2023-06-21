@@ -51,3 +51,7 @@ def are_columns_valid(grid):
         if not is_valid_set(column):
             return False
     return True
+
+
+def is_valid_number(num):
+    return num in range(0, 9)

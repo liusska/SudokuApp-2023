@@ -97,11 +97,10 @@ def remove_numbers(difficulty_level):
     return puzzle
 
 
-def generate_start_numbers_for_sudoku():
+def generate_start_numbers_for_sudoku(difficulty_level):
     generate_solved_sudoku()
-    # solved_sudoku = generate_solved_sudoku()
 
-    difficulty_level = 'easy'  # Change this to 'medium' or 'hard' for different difficulty levels
+    # difficulty_level = 'easy'  # Change this to 'medium' or 'hard' for different difficulty levels
     puzzle_grid = remove_numbers(difficulty_level)
-
+    print(view_sudoku_state(puzzle_grid))
     return puzzle_grid

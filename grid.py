@@ -1,5 +1,6 @@
 import copy
 import sys
+from button import Button
 
 
 class Grid:
@@ -17,6 +18,7 @@ class Grid:
         self.screen = pg.display.set_mode((self.screen_width, self.screen_height))
         self.cell_width = self.screen_width // 9
         self.cell_height = self.screen_height // 9
+        self.selected_difficulty = None
 
         # Popup message variables
         self.popup_active = False
@@ -59,13 +61,48 @@ class Grid:
                 )
 
     def show_popup(self, text):
-        print("popup TRUE")
         self.popup_active = True
         self.popup_text = text
 
     def close_popup(self):
-        print("popup FALSE")
         self.popup_active = False
+
+    def show_difficulty_options(self):
+        option_buttons = [
+            Button(self.pg, 0, "Easy", lambda: self.set_selected_difficulty("easy")),
+            Button(self.pg, 0, "Medium", lambda: self.set_selected_difficulty("medium")),
+            Button(self.pg, 0, "Hard", lambda: self.set_selected_difficulty("hard")),
+        ]
+
+        selected_difficulty = None  # Variable to store the selected difficulty
+
+        while self.selected_difficulty is None:
+            self.screen.fill(self.pg.Color("white"))
+
+            button_width = self.screen_width // 3
+            button_height = 80
+            start_y = (self.screen_height - len(option_buttons) * button_height) // 2
+
+            for event in self.pg.event.get():
+                if event.type == self.pg.QUIT:
+                    self.pg.quit()
+                    sys.exit()
+                for button in option_buttons:
+                    button.handle_event(event)
+
+            for i, button in enumerate(option_buttons):
+                button.rect = self.pg.Rect((self.screen_width - button_width) // 2, start_y + i * button_height,
+                                           button_width, button_height)
+                button.draw(self.screen)
+
+            self.pg.display.flip()
+
+            if selected_difficulty is not None:
+                return selected_difficulty
+
+    def set_selected_difficulty(self, difficulty):
+        self.selected_difficulty = difficulty
+        return
 
     def draw_popup(self):
         if self.popup_active:
