@@ -73,7 +73,6 @@ class Game:
         print("New game!")
         print(self.numbers_grid)
         self.play_game()
-        pass
 
     def finish_game(self):
         if is_any_empty_cell_in_grid(self.numbers_grid):
