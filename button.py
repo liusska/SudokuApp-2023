@@ -1,3 +1,6 @@
+""" Class Button is responsible for the buttons that are managing the game"""
+
+
 class Button:
     def __init__(self, pg, x, text, action):
         self.pg = pg
@@ -9,6 +12,7 @@ class Button:
         self.action = action
 
     def draw(self, surface):
+        """Draw button on the board with custom name"""
         if self.rect.collidepoint(self.pg.mouse.get_pos()):
             self.pg.draw.rect(surface, self.hover_color, self.rect)
         else:
@@ -20,6 +24,7 @@ class Button:
         surface.blit(text_surface, text_rect)
 
     def handle_event(self, event):
+        """When button is pressed calls function attached to the selected button"""
         if event.type == self.pg.MOUSEBUTTONDOWN:
             # Left mouse button
             if event.button == 1:

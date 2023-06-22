@@ -1,3 +1,5 @@
+""" Class Game is responsible for the current game functionality"""
+
 import sys
 from grid import Grid
 from button import Button
@@ -20,6 +22,10 @@ class Game:
         self.new_game_btn = Button(pg, 420, "New Game", self.new_game)
 
     def calculate_cell_coordinates(self):
+        """
+        Returns row and col (cell coordinates)
+        based on mouse position, cell height and cell width
+        """
         mouse_x, mouse_y = self.pg.mouse.get_pos()
         cell_x = mouse_y // self.grid.cell_height
         cell_y = mouse_x // self.grid.cell_width
@@ -27,6 +33,7 @@ class Game:
         return cell_x, cell_y
 
     def enter_number(self, event, numbers_grid):
+        """Enter number in valid and empty cell"""
         cell_x, cell_y = self.calculate_cell_coordinates()
         if not is_valid_number(cell_x) or not is_valid_number(cell_y):
             print(f"Not valid coordinates {cell_x} {cell_y}" )
@@ -39,6 +46,11 @@ class Game:
         print(numbers_grid)
 
     def clear_number(self):
+        """
+        Find the coordinates of the selected cell and clear the number only
+        if the coordinates of the cell are valid and the number in the cell
+        is not from the start game initialization.
+        """
         cell_x, cell_y = self.calculate_cell_coordinates()
         if type(self.numbers_grid[cell_x][cell_y]) == str:
             self.numbers_grid[cell_x][cell_y] = ''
@@ -59,6 +71,7 @@ class Game:
                 self.clear_number()
 
     def restart_game(self):
+        """Clear the user numbers from the board"""
         self.numbers_grid = self.grid.grid_copy
         self.grid = Grid(self.pg, self.numbers_grid)
         print("Sudoku restarted!")
@@ -66,6 +79,7 @@ class Game:
         self.play_game()
 
     def new_game(self):
+        """Show window with difficulty options and start new game based on it"""
         self.grid.show_difficulty_options()
         print(self.grid.selected_difficulty)
         self.numbers_grid = generate_start_numbers_for_sudoku(self.grid.selected_difficulty)
@@ -75,6 +89,10 @@ class Game:
         self.play_game()
 
     def finish_game(self):
+        """
+        When Finish button is selected is checking about game status
+        and send popup message
+        """
         if is_any_empty_cell_in_grid(self.numbers_grid):
             text = "There are empty cells."
             self.grid.show_popup(text)
@@ -94,6 +112,9 @@ class Game:
             return
 
     def play_game(self):
+        """
+        Create board, visualize the sudoku puzzle and buttons for managing the game board.
+        """
         self.grid.draw_background()
         self.grid.draw_init_numbers()
         for event in self.pg.event.get():

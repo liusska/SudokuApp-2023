@@ -1,3 +1,5 @@
+""" Class Grid is responsible for the creation of the board for sudoku game"""
+
 import copy
 import sys
 from button import Button
@@ -30,6 +32,7 @@ class Grid:
         self.popup_close_button = pg.Rect(380, 420, 50, 50)
 
     def draw_background(self):
+        """Draw 9x9 grid with empty cells"""
         self.screen.fill(self.pg.Color("white"))
         self.pg.draw.rect(self.screen, self.pg.Color("black"), self.pg.Rect(40, 40, 720, 720), width=6)
 
@@ -49,6 +52,7 @@ class Grid:
                 line_width)
 
     def draw_init_numbers(self):
+        """Visualize in the grid start numbers for sudoku"""
         for row in range(self.length):
             for col in range(self.length):
                 output = self.grid_numbers[row][col]
@@ -61,13 +65,20 @@ class Grid:
                 )
 
     def show_popup(self, text):
+        """Show popup window with custom information message"""
         self.popup_active = True
         self.popup_text = text
 
     def close_popup(self):
+        """Close popup window"""
         self.popup_active = False
 
     def show_difficulty_options(self):
+        """
+        Visualize window with 3 buttons for different levels of sudoku
+        difficulty: Easy, Medium and Hard
+        Selected level is attached to the current object
+        """
         option_buttons = [
             Button(self.pg, 0, "Easy", lambda: self.set_selected_difficulty("easy")),
             Button(self.pg, 0, "Medium", lambda: self.set_selected_difficulty("medium")),
@@ -101,10 +112,12 @@ class Grid:
                 return selected_difficulty
 
     def set_selected_difficulty(self, difficulty):
+        """ Set selected difficulty class attr"""
         self.selected_difficulty = difficulty
         return
 
     def draw_popup(self):
+        """Draw popup message with information and close button"""
         if self.popup_active:
             # Draw popup background
             self.pg.draw.rect(self.screen, self.popup_color, self.popup_rect)

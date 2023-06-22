@@ -11,6 +11,8 @@ if __name__ == "__main__":
     init_numbers = copy.deepcopy(solved_numbers)
 
     grid_obj = Grid(pg, init_numbers)
+    grid_obj.pg.display.set_caption("Sudoku")
+
     game_obj = Game(pg, grid_obj)
 
     while True:
